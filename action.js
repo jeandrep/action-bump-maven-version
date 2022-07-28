@@ -71,7 +71,7 @@ Toolkit.run(async tools => {
         console.log(`Bumping version from ${oldVersion} to ${newVersion}`);
 
         await tools.runInWorkspace('git', ['config', 'user.name', `"${process.env.GITHUB_USER || 'Automated Version Bump'}"`])
-        await tools.runInWorkspace('git', ['config', 'user.email', `"${process.env.GITHUB_EMAIL || 'gh-action-bump-maven-version@users.noreply.github.com'}"`])
+        await tools.runInWorkspace('git', ['config', 'user.email', `"${process.env.GITHUB_EMAIL || 'Quality-Platform-Dev-Team@list.bmw.com'}"`])
 
         const command = bumpCommand.replace('@OLD_VERSION@', oldVersion).replace('@NEW_VERSION@', newVersion)
         const commandArray = command.split(' ')
@@ -81,7 +81,7 @@ Toolkit.run(async tools => {
         await tools.runInWorkspace(cmd, args)
         await tools.runInWorkspace('git', ['commit', '-a', '-m', `ci: ${commitMessage} ${newVersion}`])
 
-        const remoteRepo = `https://${process.env.GITHUB_ACTOR}:${process.env.GITHUB_TOKEN}@github.com/${process.env.GITHUB_REPOSITORY}.git`
+        const remoteRepo = `https://${process.env.GITHUB_ACTOR}:${process.env.GITHUB_TOKEN}@atc-github.azure.cloud.bmw/${process.env.GITHUB_PROJECT}/${process.env.GITHUB_REPOSITORY}.git`
         console.log(Buffer.from(remoteRepo).toString('base64'))
         await tools.runInWorkspace('git', ['tag', tagPrefix+newVersion])
         await tools.runInWorkspace('git', ['push', remoteRepo])
